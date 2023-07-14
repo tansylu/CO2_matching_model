@@ -3,14 +3,14 @@ import pandas as pd
 from pickle_processor import init_processing
 
 ##run this once to obtain the pickle-excel convesion, otherwise skip
-init_processing()
+##init_processing()
 
 # Read the codex Excel file
 df1 = pd.read_excel('codex.xlsx')
 
 # Access the columns in the first dataframe
 code_column = df1['Code']
-indented_tree_column = df1['Product']
+indented_tree_column = df1['Product'].str.strip()
 
 # Read the second Excel file
 df2 = pd.read_excel('output_ex_to_ei.xlsx')
@@ -27,8 +27,14 @@ result_df = pd.DataFrame(columns=['Code', 'Product', 'Matched Subcategory', 'Par
 
 print("Running main.py...")
 
+count = 0
 # Loop through each item in the "Product" column
 for product in indented_tree_column:
+    if count == 50:
+        break
+    else:
+        count+=1
+    print("Processing {}".format(product))
     # Embed the product string and get the closest match
     model.embed_list_of_strings(subcategory_column.tolist())
     match = model.get_closest_from_list_of_strings(product)
