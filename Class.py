@@ -31,10 +31,13 @@ class string_embedder:
 
 
 #load data set of matched products
-data_categories=pickle.load(open("product_EI_to_EX.pickle", "rb"))
-
+data_categories=pickle.load(open("product_EX_to_EI.pickle", "rb")).values()
+d = []
+for x in data_categories:
+    for e in x:
+        d.append(e)
 model = string_embedder('paraphrase-MiniLM-L6-v2')
 
-model.embed_list_of_strings(data_categories)
-match=model.get_closest_from_list_of_strings('beef')
+model.embed_list_of_strings(d)
+match=model.get_closest_from_list_of_strings('newspaper')
 print(match)
