@@ -21,6 +21,9 @@ parent_category_column = df2['Parent Category']
 
 # Initialize the string_embedder model
 model = string_embedder('paraphrase-MiniLM-L6-v2')
+# Embed the product string and get the closest match
+model.embed_list_of_strings(subcategory_column.tolist())
+#!!do this once here instead of repeating th eprocess every time in the loop
 
 # Create a new dataframe to store the results
 result_df = pd.DataFrame(columns=['Code', 'Product', 'Matched Subcategory', 'Parent Category'])
@@ -35,8 +38,7 @@ for product in indented_tree_column:
     else:
         count+=1
     print("Processing {}".format(product))
-    # Embed the product string and get the closest match
-    model.embed_list_of_strings(subcategory_column.tolist())
+ 
     match = model.get_closest_from_list_of_strings(product)
     
     # Find the index of the matched subcategory
