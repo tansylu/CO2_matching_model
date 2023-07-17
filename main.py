@@ -7,6 +7,7 @@ from pickle_processor import init_processing
 
 # Read the codex Excel file
 df1 = pd.read_excel('codex.xlsx')
+df1.head()
 
 # Access the columns in the first dataframe
 code_column = df1['Code']
@@ -32,28 +33,32 @@ print("Running main.py...")
 
 count = 0
 # Loop through each item in the "Product" column
-for product in indented_tree_column:
+for index, product in enumerate(indented_tree_column):
     if count == 50:
         break
     else:
-        count+=1
+        count += 1
     print("Processing {}".format(product))
- 
+
     match = model.get_closest_from_list_of_strings(product)
-    
+
     # Find the index of the matched subcategory
     match_index = subcategory_column[subcategory_column == match].index[0]
-    
+
     # Get the parent category based on the match index
     parent_category = parent_category_column[match_index]
-    
+
+    # Get the code based on the index in the loop
+    code = code_column[index]
+
     # Append the result to the result dataframe
     result_df = pd.concat([result_df, pd.DataFrame({
-        'Code': [code_column[match_index]],
+        'Code': [code],
         'Product': [product],
         'Matched Subcategory': [match],
         'Parent Category': [parent_category]
     })], ignore_index=True)
+
 
 print("Prediction complete.")
 print(result_df)
