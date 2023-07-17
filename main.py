@@ -20,7 +20,7 @@ subcategory_column = df2['Subcategory']
 parent_category_column = df2['Parent Category']
 
 # Initialize the string_embedder model
-model = string_embedder('paraphrase-MiniLM-L6-v2')
+model = string_embedder('all-MiniLM-L6-v2')
 # Embed the product string and get the closest match
 model.embed_list_of_strings(subcategory_column.tolist())
 #!!do this once here instead of repeating th eprocess every time in the loop
@@ -59,4 +59,4 @@ print("Prediction complete.")
 print(result_df)
 
 # Save the result dataframe to an Excel file
-result_df.to_excel('result.xlsx', index=False)
+result_df.to_excel('result_testing.xlsx', index=False)
